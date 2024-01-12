@@ -1,0 +1,27 @@
+name: JMeter Test
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  jmeter-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run JMeter test
+      uses: QAInsights/PerfAction@v5.6.2
+      with:
+        test-plan-path: './apache-jmeter-5.5/bin/Register.jmx'
+
+    - name: Upload Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: jmeter-results
+        path: result.jtl
+        if-no-files-found: error
+        
